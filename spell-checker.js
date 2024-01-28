@@ -12,6 +12,7 @@ const fileToSpellCheck = rl.createInterface({
 const existInDictionary = (wordToFind) => {
     let start = 0;
     let end = dictionary.length - 1;
+    wordToFind = wordToFind.toLowerCase().replace(/[.,\/#!$%^&*;:{}=\-_`~()]/g,"");
 
     while (start <= end) {
         let middle = Math.floor((start + end) / 2);
@@ -31,7 +32,7 @@ const existInDictionary = (wordToFind) => {
 const getSuggestedWords = (incorrectWord) => {
     const suggestedWords = [];
     dictionary.filter((word) => {
-        if (word.substring(0, 4) === incorrectWord.substring(0, 4)) suggestedWords.push(word);
+        if (word.toLowerCase().substring(0, 4) === incorrectWord.toLowerCase().substring(0, 4)) suggestedWords.push(word);
     });
     console.info(`Suggested words for ${incorrectWord}:\n${suggestedWords.join('\n')}\n`);
 };
@@ -52,7 +53,7 @@ const spellCheckTextFile = () => {
         lineNum++;
         const words = line.split(' ');
         for(let i = 0; i < words.length; i++) {
-            const word = words[i].replace(/[^a-zA-Z ]/g, "").toLowerCase();
+            const word = words[i];
             if (!existInDictionary(word)) {
                 incorrectWords.push({
                     word: word,
