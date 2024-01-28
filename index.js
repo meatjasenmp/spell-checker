@@ -27,35 +27,45 @@ const existInDictionary = (arr, wordToFind) => {
     return false;
 };
 
-const getSuggestedWords = (wordToFind) => {
+const getSuggestedWords = (incorrectWord) => {
     const suggestedWords = [];
     dictionary.filter((word) => {
-        if (word.substring(0, 4) === wordToFind.substring(0, 4)) suggestedWords.push(word);
+        if (word.substring(0, 4) === incorrectWord.substring(0, 4)) suggestedWords.push(word);
     });
-    console.log(`Suggested words for ${wordToFind}:\n${suggestedWords.join('\n')}`);
+    console.info(`Suggested words for ${incorrectWord}:\n${suggestedWords.join('\n')}\n`);
 };
 
-const getIncorrectlySpelledWords = (arr) => {
-    if (arr.length === 0) return;
-
-    console.log(`Total number of incorrect words: ${arr.length}`);
-    console.log(`Incorrect words: ${arr.join(', ')}`);
-
-    for (let i = 0; i < arr.length; i++) {
-        getSuggestedWords(arr[i]);
-    }
-}
+const listIncorrectWords = (arr) => {
+    console.info(`Total number of incorrect words: ${arr.length}`);
+    arr.map((item) => {
+        console.info(`${item.word} at line: ${item.lineNo} and column: ${item.column} \n`);
+        getSuggestedWords(item.word);
+    });
+};
 
 const spellCheckTextFile = () => {
     const incorrectWords = [];
+    let lineNum = 0;
+
     fileToSpellCheck.on('line', (line) => {
+        lineNum++;
         const words = line.split(' ');
         for(let i = 0; i < words.length; i++) {
             const word = words[i].replace(/[^a-zA-Z ]/g, "").toLowerCase();
-            if (!existInDictionary(dictionary, word)) incorrectWords.push(word);
+            if (!existInDictionary(dictionary, word)) {
+                incorrectWords.push({
+                    word: word,
+                    lineNo: lineNum,
+                    column: i + 1
+                });
+            }
         }
     }).on('close', () => {
-        getIncorrectlySpelledWords(incorrectWords);
+        if (incorrectWords.length === 0) {
+            console.info('No incorrectly spelled words found!');
+            return;
+        }
+        listIncorrectWords(incorrectWords);
     });
 }
 
