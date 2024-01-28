@@ -32,12 +32,15 @@ const getSuggestedWords = (wordToFind) => {
     dictionary.filter((word) => {
         if (word.substring(0, 4) === wordToFind.substring(0, 4)) suggestedWords.push(word);
     });
-    console.log(`The following word is misspelled: ${wordToFind}`);
-    console.log(`Suggested words: ${suggestedWords.join(', ')}`);
+    console.log(`Suggested words for ${wordToFind}:\n${suggestedWords.join('\n')}`);
 };
 
 const getIncorrectlySpelledWords = (arr) => {
     if (arr.length === 0) return;
+
+    console.log(`Total number of incorrect words: ${arr.length}`);
+    console.log(`Incorrect words: ${arr.join(', ')}`);
+
     for (let i = 0; i < arr.length; i++) {
         getSuggestedWords(arr[i]);
     }
