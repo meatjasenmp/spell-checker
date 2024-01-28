@@ -28,7 +28,6 @@ const iterativeWordSearch = (arr, wordToFind) => {
 };
 
 const getSuggestedWords = (wordToFind) => {
-    if (!wordToFind) return;
     const suggestedWords = [];
     dictionary.filter((word) => {
         if (word.substring(0, 4) === wordToFind.substring(0, 4)) suggestedWords.push(word);
