@@ -8,7 +8,7 @@ const dictionary = dictionaryFile.split('\n');
 const fileToSpellCheck = rl.createInterface({
     input: fs.createReadStream(path.join(__dirname, './', 'text.txt'), 'utf8')
 });
-const iterativeWordSearch = (arr, wordToFind) => {
+const existInDictionary = (arr, wordToFind) => {
     let start = 0;
     let end = arr.length - 1;
 
@@ -49,7 +49,7 @@ const spellCheckTextFile = () => {
         const words = line.split(' ');
         for(let i = 0; i < words.length; i++) {
             const word = words[i].replace(/[^a-zA-Z ]/g, "").toLowerCase();
-            if (!iterativeWordSearch(dictionary, word)) incorrectWords.push(word);
+            if (!existInDictionary(dictionary, word)) incorrectWords.push(word);
         }
     }).on('close', () => {
         getIncorrectlySpelledWords(incorrectWords);
