@@ -36,9 +36,9 @@ const getSuggestedWords = (incorrectWord) => {
 };
 
 const listIncorrectWords = (arr) => {
-    console.info(`Total number of incorrect words: ${arr.length}`);
+    console.info(`Total number of incorrect words: ${arr.length} \n`);
     arr.map((item) => {
-        console.info(`${item.word} at line: ${item.lineNo} and column: ${item.column} \n`);
+        console.info(`${item.word} at line ${item.lineNo}, column ${item.column}`);
         getSuggestedWords(item.word);
     });
 };
