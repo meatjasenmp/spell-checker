@@ -41,9 +41,7 @@ const spellCheckTextFile = () => {
         const words = line.split(' ');
         for(let i = 0; i < words.length; i++) {
             const word = words[i].replace(/[^a-zA-Z ]/g, "").toLowerCase();
-            if (!iterativeWordSearch(dictionary, word)) {
-                incorrectWords.push(word);
-            }
+            if (!iterativeWordSearch(dictionary, word)) incorrectWords.push(word);
         }
     }).on('close', () => {
         listIncorrectlySpelledWords(incorrectWords);
