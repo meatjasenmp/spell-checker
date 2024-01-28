@@ -40,7 +40,6 @@ const getSuggestedWords = (wordToFind) => {
 const getIncorrectlySpelledWords = (arr) => {
     if (arr.length === 0) return;
     for (let i = 0; i < arr.length; i++) {
-        console.log(arr[i]);
         getSuggestedWords(arr[i]);
     }
 }
