@@ -12,7 +12,7 @@ const fileToSpellCheck = rl.createInterface({
 const existInDictionary = (wordToFind) => {
     let start = 0;
     let end = dictionary.length - 1;
-    wordToFind = wordToFind.toLowerCase().replace(/[.,\/#!$%^&*;:{}=\-_`~()]/g,"");
+    wordToFind = wordToFind.toLowerCase().replace(/[.,\/#!?$%^&*;:{}=\-_`~()]/g,"");
 
     while (start <= end) {
         let middle = Math.floor((start + end) / 2);
