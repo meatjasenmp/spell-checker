@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const rl = require('readline');
+const process = require('process');
 
-const dictionaryFile = fs.readFileSync(path.join(__dirname, './', 'dictionary.txt'), 'utf8');
+const dictionaryFile = fs.readFileSync(path.join(__dirname, './', process.argv[2]), 'utf8');
 const dictionary = dictionaryFile.split('\n');
 
 const fileToSpellCheck = rl.createInterface({
-    input: fs.createReadStream(path.join(__dirname, './', 'text.txt'), 'utf8')
+    input: fs.createReadStream(path.join(__dirname, './', process.argv[3]), 'utf8')
 });
 const existInDictionary = (wordToFind) => {
     let start = 0;
