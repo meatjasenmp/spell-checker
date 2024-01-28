@@ -27,11 +27,21 @@ const iterativeWordSearch = (arr, wordToFind) => {
     return false;
 };
 
-const listIncorrectlySpelledWords = (arr) => {
+const getSuggestedWords = (wordToFind) => {
+    if (!wordToFind) return;
+    const suggestedWords = [];
+    dictionary.filter((word) => {
+        if (word.substring(0, 4) === wordToFind.substring(0, 4)) suggestedWords.push(word);
+    });
+    console.log(`The following word is misspelled: ${wordToFind}`);
+    console.log(`Suggested words: ${suggestedWords.join(', ')}`);
+};
+
+const getIncorrectlySpelledWords = (arr) => {
     if (arr.length === 0) return;
-    console.log('The following words are misspelled: ');
     for (let i = 0; i < arr.length; i++) {
         console.log(arr[i]);
+        getSuggestedWords(arr[i]);
     }
 }
 
@@ -44,7 +54,7 @@ const spellCheckTextFile = () => {
             if (!iterativeWordSearch(dictionary, word)) incorrectWords.push(word);
         }
     }).on('close', () => {
-        listIncorrectlySpelledWords(incorrectWords);
+        getIncorrectlySpelledWords(incorrectWords);
     });
 }
 
