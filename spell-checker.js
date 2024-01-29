@@ -9,6 +9,7 @@ const dictionary = dictionaryFile.split('\n');
 const fileToSpellCheck = rl.createInterface({
     input: fs.createReadStream(path.join(__dirname, './', process.argv[3]), 'utf8')
 });
+
 const existInDictionary = (dictionary, wordToFind) => {
     let start = 0;
     let end = dictionary.length - 1;
@@ -34,7 +35,12 @@ const getSuggestedWords = (incorrectWord) => {
     dictionary.filter((word) => {
         if (word.toLowerCase().substring(0, 4) === incorrectWord.toLowerCase().substring(0, 4)) suggestedWords.push(word);
     });
+    if (suggestedWords.length === 0) {
+        console.info(`No suggested words for ${incorrectWord}\n`)
+        return;
+    }
     console.info(`Suggested words for ${incorrectWord}:\n${suggestedWords.join('\n')}\n`);
+
 };
 
 const listIncorrectWords = (arr) => {
@@ -50,8 +56,8 @@ const spellCheckTextFile = () => {
     let lineNum = 0;
 
     fileToSpellCheck.on('line', (line) => {
-        lineNum++;
         const words = line.split(' ');
+        lineNum++;
         for(let i = 0; i < words.length; i++) {
             const word = words[i];
             if (!existInDictionary(dictionary, word)) {
