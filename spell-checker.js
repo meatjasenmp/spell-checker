@@ -3,6 +3,28 @@ const path = require('path');
 const rl = require('readline');
 const process = require('process');
 
+if (!process.argv[2] || !process.argv[3]) {
+    console.error('Please provide a dictionary and text file');
+    return;
+}
+
+if (process.argv[2] || process.argv[3]) {
+    if (process.argv[2].split('.')[1] !== 'txt' || process.argv[3].split('.')[1] !== 'txt') {
+        console.error('Please provide a .txt file');
+        return;
+    }
+
+    if (!fs.existsSync(path.join(__dirname, './', process.argv[2]))) {
+        console.error('Dictionary file does not exist');
+        return;
+    }
+
+    if (!fs.existsSync(path.join(__dirname, './', process.argv[3]))) {
+        console.error('Text file does not exist');
+        return;
+    }
+}
+
 const dictionaryFile = fs.readFileSync(path.join(__dirname, './', process.argv[2]), 'utf8');
 const dictionary = dictionaryFile.split('\n');
 
@@ -52,6 +74,7 @@ const listIncorrectWords = (arr) => {
 };
 
 const spellCheckTextFile = () => {
+
     const incorrectWords = [];
     let lineNum = 0;
 
