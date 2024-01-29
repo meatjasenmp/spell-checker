@@ -1,35 +1,37 @@
 const fs = require('fs');
 const path = require('path');
 const rl = require('readline');
-const process = require('process');
+const process = require('process')
 
-if (!process.argv[2] || !process.argv[3]) {
+const dictionaryFile = process.argv[2];
+const textFile = process.argv[3];
+
+if (!dictionaryFile || !textFile) {
     console.error('Please provide a dictionary and text file');
     return;
 }
 
-if (process.argv[2] || process.argv[3]) {
-    if (process.argv[2].split('.')[1] !== 'txt' || process.argv[3].split('.')[1] !== 'txt') {
+if (dictionaryFile && textFile) {
+    if (dictionaryFile.split('.')[1] !== 'txt' || textFile.split('.')[1] !== 'txt') {
         console.error('Please provide a .txt file');
         return;
     }
 
-    if (!fs.existsSync(path.join(__dirname, './', process.argv[2]))) {
+    if (!fs.existsSync(path.join(__dirname, './', dictionaryFile))) {
         console.error('Dictionary file does not exist');
         return;
     }
 
-    if (!fs.existsSync(path.join(__dirname, './', process.argv[3]))) {
+    if (!fs.existsSync(path.join(__dirname, './', textFile))) {
         console.error('Text file does not exist');
         return;
     }
 }
 
-const dictionaryFile = fs.readFileSync(path.join(__dirname, './', process.argv[2]), 'utf8');
-const dictionary = dictionaryFile.split('\n');
+const dictionary = fs.readFileSync(path.join(__dirname, './', dictionaryFile), 'utf8').split('\n');
 
 const fileToSpellCheck = rl.createInterface({
-    input: fs.createReadStream(path.join(__dirname, './', process.argv[3]), 'utf8')
+    input: fs.createReadStream(path.join(__dirname, './', textFile), 'utf8')
 });
 
 const existInDictionary = (dictionary, wordToFind) => {
@@ -62,7 +64,6 @@ const getSuggestedWords = (incorrectWord) => {
         return;
     }
     console.info(`Suggested words for ${incorrectWord}:\n${suggestedWords.join('\n')}\n`);
-
 };
 
 const listIncorrectWords = (arr) => {
@@ -74,7 +75,6 @@ const listIncorrectWords = (arr) => {
 };
 
 const spellCheckTextFile = () => {
-
     const incorrectWords = [];
     let lineNum = 0;
 
