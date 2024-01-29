@@ -29,7 +29,6 @@ if (dictionaryFile && textFile) {
 }
 
 const dictionary = fs.readFileSync(path.join(__dirname, './', dictionaryFile), 'utf8').split('\n');
-
 const fileToSpellCheck = rl.createInterface({
     input: fs.createReadStream(path.join(__dirname, './', textFile), 'utf8')
 });
