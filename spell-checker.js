@@ -36,7 +36,7 @@ const fileToSpellCheck = rl.createInterface({
 const existInDictionary = (wordToFind) => {
     let start = 0;
     let end = dictionary.length - 1;
-    wordToFind = wordToFind.toLowerCase().replace(/[.,\/#!?$%^&*;:{}=\-_`~()]/g,"");
+    wordToFind = wordToFind.toLowerCase();
 
     while (start <= end) {
         let middle = Math.floor((start + end) / 2);
@@ -67,7 +67,7 @@ const getSuggestedWords = (incorrectWord) => {
 
 const listIncorrectWords = (arr) => {
     console.info(`Total number of incorrect words: ${arr.length} \n`);
-    arr.map((item) => {
+    arr.forEach((item) => {
         console.info(`${item.word} at line ${item.lineNo}, column ${item.column}`);
         getSuggestedWords(item.word);
     });
