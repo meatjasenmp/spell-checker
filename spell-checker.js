@@ -62,6 +62,11 @@ const getSuggestedWords = (incorrectWord) => {
 };
 
 const listIncorrectWords = (arr) => {
+    if (arr.length === 0) {
+        console.info('No incorrectly spelled words found!');
+        return;
+    }
+
     console.info(`Total number of incorrect words: ${arr.length} \n`);
     arr.forEach((item) => {
         console.info(`${item.word} at line ${item.lineNo}, column ${item.column}`);
@@ -91,10 +96,6 @@ const spellCheckTextFile = () => {
             }
         }
     }).on('close', () => {
-        if (incorrectWords.length === 0) {
-            console.info('No incorrectly spelled words found!');
-            return;
-        }
         listIncorrectWords(incorrectWords);
     });
 }
